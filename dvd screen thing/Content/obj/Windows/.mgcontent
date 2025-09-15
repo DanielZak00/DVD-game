@@ -6,8 +6,14 @@
   <SourceFiles>
     <File>C:/Users/Owner/source/repos/dvd screen thing/dvd screen thing/Content/1200px-DVD_VIDEO_logo.png</File>
     <File>C:/Users/Owner/source/repos/dvd screen thing/dvd screen thing/Content/Diamond.png</File>
+    <File>C:/Users/Owner/source/repos/dvd screen thing/dvd screen thing/Content/Goldpng.png</File>
+    <File>C:/Users/Owner/source/repos/dvd screen thing/dvd screen thing/Content/ScoreFont.spritefont</File>
+    <File>C:/Users/Owner/source/repos/dvd screen thing/dvd screen thing/Content/TimerFont.spritefont</File>
   </SourceFiles>
   <DestFiles>
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File>Gold.png</File>
     <File xsi:nil="true" />
     <File xsi:nil="true" />
   </DestFiles>
