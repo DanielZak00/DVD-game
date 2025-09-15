@@ -1,6 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
+using System.Diagnostics;
 
 namespace dvd_screen_thing
 {
@@ -10,13 +12,17 @@ namespace dvd_screen_thing
         private SpriteBatch _spriteBatch;
         private Texture2D _logo;
         private Texture2D _item;
-        private int _logoXPos = 0;
-        private int _logoYPos = 0;
+        private int _logoXPos;
+        private int _logoYPos;
         private bool _hitEdgeRight = true;
         private bool _hitEdgeTop = false;
         private int _diamondXPos = 500;
         private int _diamondYPos = 500;
         private bool _isDiamondShown = true;
+        private int _diamondHitCount = 0;
+        private Random _diamondRandX = new Random();
+        private Random _diamondRandY = new Random();
+
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -24,6 +30,9 @@ namespace dvd_screen_thing
             IsMouseVisible = true;
             _graphics.PreferredBackBufferWidth = 1600;
             _graphics.PreferredBackBufferHeight = 900;
+
+            _logoXPos = _graphics.PreferredBackBufferWidth / 2;
+            _logoYPos = _graphics.PreferredBackBufferHeight / 2;
 
         }
 
@@ -51,49 +60,57 @@ namespace dvd_screen_thing
 
             // TODO: Add your update logic here
 
-            //X axis
-            if (_logoXPos >= 1480)
-            {
-                _logoXPos -= 8;
-            }
-            else if(_logoXPos <= 0)
-            {
-                _logoXPos += 8;
-            }
-            if (Keyboard.GetState().IsKeyDown(Keys.Right))
-            {
-                _logoXPos += 8; 
-            }
+            _isDiamondShown = true;
 
-            else if(Keyboard.GetState().IsKeyDown(Keys.Left)) //does that
+            //X axis
+            if(Keyboard.GetState().IsKeyDown(Keys.Right) || Keyboard.GetState().IsKeyDown(Keys.D))
             {
-                _logoXPos -= 8;
+                if(_logoXPos + 120 <= _graphics.PreferredBackBufferWidth)
+                {
+                    _logoXPos += 8;
+
+                }
+            }
+            if(Keyboard.GetState().IsKeyDown(Keys.Left) || Keyboard.GetState().IsKeyDown(Keys.A))
+            {
+                if (_logoXPos >= 0)
+                {
+                    _logoXPos -= 8;
+
+                }
             }
 
             //Y axis
-            if (_logoYPos >= 800)
+            if((Keyboard.GetState().IsKeyDown(Keys.Up)) || Keyboard.GetState().IsKeyDown(Keys.W))
             {
-                _logoYPos -= 8;
+                if (_logoYPos >= 0)
+                {
+                    _logoYPos -= 8;
+
+                }
             }
-            else if(_logoYPos <= 0)
+            if((Keyboard.GetState().IsKeyDown(Keys.Down)) || Keyboard.GetState().IsKeyDown(Keys.S))
             {
-                _logoYPos += 8;
+                if (_logoYPos + 80 <= _graphics.PreferredBackBufferHeight)
+                {
+                    _logoYPos += 8;
+
+                }
             }
-            if ((Keyboard.GetState().IsKeyDown(Keys.Up)))
+
+            //diamond hit
+            if(_logoXPos < _diamondXPos + 50 &&
+               _logoXPos + 120 > _diamondXPos &&
+               _logoYPos < _diamondYPos + 50 &&
+               _logoYPos + 80 > _diamondYPos)
             {
-                _logoYPos -= 8;
+                _isDiamondShown = false;
+                _diamondXPos = _diamondRandX.Next(0, _graphics.PreferredBackBufferWidth);
+                _diamondYPos = _diamondRandY.Next(0, _graphics.PreferredBackBufferHeight);
+                _diamondHitCount = _diamondHitCount + 50;
+                Debug.WriteLine($"Your score is: {_diamondHitCount}");
             }
-            else if ((Keyboard.GetState().IsKeyDown(Keys.Down)))
-            {
-                _logoYPos += 8;
-            }
-            if (_logoXPos < _diamondXPos + 80 &&
-                _logoXPos + 120 > _diamondXPos &&
-                _logoYPos < _diamondYPos + 80 &&
-                _logoYPos + 80 > _diamondYPos)
-            {
-                _isDiamondShown = false; 
-            }
+
            
             
             base.Update(gameTime);
@@ -108,11 +125,8 @@ namespace dvd_screen_thing
             _spriteBatch.Draw(_logo, new Rectangle(_logoXPos, _logoYPos, 120, 80), Color.White);
             if(_isDiamondShown)
             {
-                _spriteBatch.Draw(_item, new Rectangle(_diamondXPos, _diamondYPos, 80, 80), Color.White);
-
+                _spriteBatch.Draw(_item, new Rectangle(_diamondXPos, _diamondYPos, 50, 50), Color.White);
             }
-            //hello
-
             _spriteBatch.End();
             base.Draw(gameTime);
         }
