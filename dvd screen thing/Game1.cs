@@ -16,7 +16,7 @@ namespace dvd_screen_thing
         private bool _hitEdgeTop = false;
         private int _diamondXPos = 500;
         private int _diamondYPos = 500;
-        private bool isDiamondShown = true;
+        private bool _isDiamondShown = true;
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -62,9 +62,10 @@ namespace dvd_screen_thing
             }
             if (Keyboard.GetState().IsKeyDown(Keys.Right))
             {
-                _logoXPos += 8;
+                _logoXPos += 8; 
             }
-            else if( Keyboard.GetState().IsKeyDown(Keys.Left))
+
+            else if(Keyboard.GetState().IsKeyDown(Keys.Left)) //does that
             {
                 _logoXPos -= 8;
             }
@@ -91,7 +92,7 @@ namespace dvd_screen_thing
                 _logoYPos < _diamondYPos + 80 &&
                 _logoYPos + 80 > _diamondYPos)
             {
-                isDiamondShown = false; 
+                _isDiamondShown = false; 
             }
            
             
@@ -105,12 +106,12 @@ namespace dvd_screen_thing
             // TODO: Add your drawing code here
             _spriteBatch.Begin();
             _spriteBatch.Draw(_logo, new Rectangle(_logoXPos, _logoYPos, 120, 80), Color.White);
-            if(isDiamondShown)
+            if(_isDiamondShown)
             {
                 _spriteBatch.Draw(_item, new Rectangle(_diamondXPos, _diamondYPos, 80, 80), Color.White);
 
             }
-            
+            //hello
 
             _spriteBatch.End();
             base.Draw(gameTime);
